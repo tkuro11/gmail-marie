@@ -12,9 +12,9 @@ SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]
 def main():
     parser = argparse.ArgumentParser(description="Gmailのメッセージを操作する")
     parser.add_argument("-d", "--delete", action="store_true", help="ゴミ箱に移動する")
-    parser.add_argument("-a", "--archive", action="store_true", help="アーカイブする")
-    parser.add_argument("-r", "--read", action="store_true", help="既読にする")
-    parser.add_argument("-u", "--unread", action="store_true", help="未読にする")
+    parser.add_argument("-a", "--archive", action="store_true", help="アーカイブする(not implemented)")
+    parser.add_argument("-r", "--read", action="store_true", help="既読にする(not implemented)")
+    parser.add_argument("-u", "--unread", action="store_true", help="未読にする(not implemented)")
     parser.add_argument(
         "pattern",
         metavar="PATTERN",
@@ -96,7 +96,7 @@ def main():
 
         print(f"合計 {total_count} 件のメールが見つかりました。ゴミ箱に移動します...")
         while True:
-            if (ans := input("良ろしいですか(y/n)？")) == "y":
+            if (ans := input("OK(y/n)？")) == "y":
                 break
             elif ans == "n":
                 return
