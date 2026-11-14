@@ -28,7 +28,6 @@ def main():
         nargs="?",
     )
     args = parser.parse_args()
-    print(args)
 
     creds = None
 
