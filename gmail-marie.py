@@ -12,9 +12,15 @@ SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]
 def main():
     parser = argparse.ArgumentParser(description="Gmailのメッセージを操作する")
     parser.add_argument("-d", "--delete", action="store_true", help="ゴミ箱に移動する")
-    parser.add_argument("-a", "--archive", action="store_true", help="アーカイブする(not implemented)")
-    parser.add_argument("-r", "--read", action="store_true", help="既読にする(not implemented)")
-    parser.add_argument("-u", "--unread", action="store_true", help="未読にする(not implemented)")
+    parser.add_argument(
+        "-a", "--archive", action="store_true", help="アーカイブする(not implemented)"
+    )
+    parser.add_argument(
+        "-r", "--read", action="store_true", help="既読にする(not implemented)"
+    )
+    parser.add_argument(
+        "-u", "--unread", action="store_true", help="未読にする(not implemented)"
+    )
     parser.add_argument(
         "pattern",
         metavar="PATTERN",
@@ -22,6 +28,7 @@ def main():
         nargs="?",
     )
     args = parser.parse_args()
+    print(args)
 
     creds = None
 
