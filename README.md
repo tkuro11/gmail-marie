@@ -46,6 +46,7 @@ OK(y/n)？y
     初回実行時はブラウザが立ち上がり，認証を要求されるので，それに従う．
     「このアプリを信頼しますか？」は「続行」を選択．
     ```bash
-    % uv run gmail-marie.py <fromのパターン>
+    % uv run gmail-marie.py <検索文字列>
     ```
+    検索文字列はフレフィックスを何もつけないとfrom: がつけられる．そのほかは [Google](https://support.google.com/mail/answer/7190?hl=en) 参照.
     3. 検索結果が一覧表示され，確認メッセージが出るので，問題なければ'y'を入力すると削除される．'n'でキャンセル．
