@@ -32,7 +32,7 @@ OK(y/n)？y
 
 ## 使い方
 1. GoogleのAPIキーを取得する
-    1. Cloud console(https://console.cloud.google.com/?hl=ja)にログインして[APIとサービス]に進む（必要に応じてprojectを作る）
+    1. [Cloud console](https://console.cloud.google.com/?hl=ja)にログインして[APIとサービス]に進む（必要に応じてprojectを作る）
     1. サイドメニューの[ライブラリ]をクリックして「Gmail API」を検索して選択する．[有効にする]をクリック.
     1. [認証情報]タブを選ぶ．[認証情報を作成]ポップダウンから[OAuthクライアントID の作成]を選ぶ．
     1. [アプリケーションの種類]を[デスクトップアプリケーション]で[作成]をクリック（名前は任意で良い）
