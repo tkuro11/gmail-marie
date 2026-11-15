@@ -1,5 +1,5 @@
 # gmailお片付けアプリ　gmail-marie[^1]
-gmailのメールボックスから特定のクエリ条件に合致するものを全部消すアプリ．
+gmailのメールボックスから特定のクエリ条件に合致するものを一括操作するアプリ．
 
 [^1]: 名前は近藤麻理恵さんの「『人生がときめく片づけの魔法』から
 
@@ -49,4 +49,17 @@ OK(y/n)？y
     % uv run gmail-marie.py <検索文字列>
     ```
     検索文字列はフレフィックスを何もつけないとfrom: がつけられる．そのほかは [Google](https://support.google.com/mail/answer/7190?hl=en) 参照.
-3. 検索結果が一覧表示され，確認メッセージが出るので，問題なければ'y'を入力すると削除される．'n'でキャンセル．
+3. 検索結果が一覧表示され，確認メッセージが出るので，問題なければ'y'を入力すると実行される．'n'でキャンセル．
+
+## 操作モード
+- `-d`, `--delete`: ゴミ箱に移動（デフォルト）
+- `-a`, `--archive`: アーカイブ（`INBOX` ラベルを外す）
+- `-r`, `--read`: 既読（`UNREAD` ラベルを外す）
+- `-u`, `--unread`: 未読（`UNREAD` ラベルを付与する）
+
+example:
+```bash
+% uv run gmail-marie.py -a "from:newsletter@example.com newer_than:30d"
+% uv run gmail-marie.py -r "subject:請求書"
+% uv run gmail-marie.py -u "from:boss@example.com"
+```

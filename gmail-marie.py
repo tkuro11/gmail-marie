@@ -11,15 +11,21 @@ SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]
 
 def main():
     parser = argparse.ArgumentParser(description="Gmailのメッセージを操作する")
-    parser.add_argument("-d", "--delete", action="store_true", help="ゴミ箱に移動する")
-    parser.add_argument(
-        "-a", "--archive", action="store_true", help="アーカイブする(not implemented)"
+    action_group = parser.add_mutually_exclusive_group()
+    action_group.add_argument(
+        "-d",
+        "--delete",
+        action="store_true",
+        help="ゴミ箱に移動する（デフォルト）",
     )
     parser.add_argument(
-        "-r", "--read", action="store_true", help="既読にする(not implemented)"
+        "-a", "--archive", action="store_true", help="アーカイブする"
     )
     parser.add_argument(
-        "-u", "--unread", action="store_true", help="未読にする(not implemented)"
+        "-r", "--read", action="store_true", help="既読にする"
+    )
+    parser.add_argument(
+        "-u", "--unread", action="store_true", help="未読にする"
     )
     parser.add_argument(
         "pattern",
@@ -100,7 +106,24 @@ def main():
             print("対象のメールは見つかりませんでした。")
             return
 
-        print(f"合計 {total_count} 件のメールが見つかりました。ゴミ箱に移動します...")
+        if args.archive:
+            action_name = "アーカイブ"
+            add_label_ids = []
+            remove_label_ids = ["INBOX"]
+        elif args.read:
+            action_name = "既読に"
+            add_label_ids = []
+            remove_label_ids = ["UNREAD"]
+        elif args.unread:
+            action_name = "未読に"
+            add_label_ids = ["UNREAD"]
+            remove_label_ids = []
+        else:
+            action_name = "ゴミ箱に移動"
+            add_label_ids = ["TRASH"]
+            remove_label_ids = ["INBOX", "UNREAD"]
+
+        print(f"合計 {total_count} 件のメールが見つかりました。{action_name}します...")
         while True:
             if (ans := input("OK(y/n)？")) == "y":
                 break
@@ -116,17 +139,16 @@ def main():
             chunk = messages[i : i + batch_size]
             msg_ids = [msg["id"] for msg in chunk]
 
-            service.users().messages().batchModify(
-                userId="me",
-                body={
-                    "ids": msg_ids,
-                    "addLabelIds": ["TRASH"],
-                    "removeLabelIds": ["INBOX", "UNREAD"],
-                },
-            ).execute()
+            body = {"ids": msg_ids}
+            if add_label_ids:
+                body["addLabelIds"] = add_label_ids
+            if remove_label_ids:
+                body["removeLabelIds"] = remove_label_ids
+
+            service.users().messages().batchModify(userId="me", body=body).execute()
             print(f"{i + len(chunk)} / {total_count} 件処理完了...")
 
-        print("すべての対象メールをゴミ箱に移動しました！")
+        print(f"すべての対象メールを{action_name}しました！")
 
     except HttpError as error:
         print(f"エラーが発生しました: {error}")
